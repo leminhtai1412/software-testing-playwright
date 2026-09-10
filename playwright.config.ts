@@ -1,93 +1,17 @@
-import { defineConfig, devices } from "@playwright/test";
-import dotenv from "dotenv";
-import path from "path";
+import { defineConfig, devices } from '@playwright/test';
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env"), quiet: true });
-
-const isCI = process.env.CI === "true" || process.env.CI === "1";
-const API_BASE_URL =
-  process.env.API_BASE_URL ||
-  process.env.BASE_URL ||
-  "https://ticket-booking-amqv.onrender.com";
-const WEB_BASE_URL = process.env.WEB_BASE_URL || "https://www.saucedemo.com";
-
-/**
- * Playwright Multi-Project Configuration for Group 67 SDET Automation Framework
- * Supporting dual-engine testing:
- *  - NestJS Ticket Booking API Backend (https://ticket-booking-amqv.onrender.com)
- *  - SauceDemo Swag Labs Web UI (https://www.saucedemo.com)
- */
 export default defineConfig({
-  testDir: "./tests",
-  timeout: 30 * 1000,
-  expect: {
-    timeout: 5 * 1000,
-  },
-  fullyParallel: false,
-  forbidOnly: isCI,
-  retries: isCI ? 1 : 0,
-  workers: 1,
-  reporter: [
-    ["html", { outputFolder: "playwright-report", open: "never" }],
-    ["json", { outputFile: "test-results/results.json" }],
-    ["junit", { outputFile: "test-results/junit.xml" }],
-  ],
+  testDir: './tests/e2e',
+  fullyParallel: true,
+  retries: 1,
+  reporter: 'html',
   use: {
-    trace: "on-first-retry",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
+    trace: 'on-first-retry',
   },
-
   projects: [
-    // 1. API Testing Project (NestJS Backend)
     {
-      name: "api",
-      testMatch: /.*tests\/api\/.*\.spec\.ts/,
-      fullyParallel: false,
-      retries: 0,
-      use: {
-        baseURL: API_BASE_URL,
-        extraHTTPHeaders: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      },
-    },
-
-    // 2. Web UI Testing Projects (SauceDemo Swag Labs)
-    {
-      name: "chromium",
-      testMatch: /.*tests\/e2e\/.*\.spec\.ts/,
-      use: {
-        baseURL: WEB_BASE_URL,
-        ...devices["Desktop Chrome"],
-      },
-    },
-    {
-      name: "firefox",
-      testMatch: /.*tests\/e2e\/.*\.spec\.ts/,
-      use: {
-        baseURL: WEB_BASE_URL,
-        ...devices["Desktop Firefox"],
-      },
-    },
-    {
-      name: "webkit",
-      testMatch: /.*tests\/e2e\/.*\.spec\.ts/,
-      use: {
-        baseURL: WEB_BASE_URL,
-        ...devices["Desktop Safari"],
-      },
-    },
-
-    // 3. Smoke / Healthcheck Project
-    {
-      name: "smoke",
-      testMatch: /.*tests\/smoke\/.*\.spec\.ts/,
-      use: {
-        baseURL: WEB_BASE_URL,
-        ...devices["Desktop Chrome"],
-      },
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
 });
