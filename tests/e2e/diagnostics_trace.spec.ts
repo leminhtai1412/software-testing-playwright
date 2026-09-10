@@ -30,8 +30,7 @@ test.describe('WBS 3.3: Web UI Test Suite - Post-Mortem Diagnostics with Trace V
     await page.locator('.shopping_cart_link').click();
     await page.locator('[data-test="checkout"]').click();
 
-    // Cố tình fail để sinh file trace phục vụ chẩn đoán hậu kỳ
-    await expect(page.locator('.title')).toHaveText('Wrong Title', { timeout: 3000 });
+    await expect(page.locator('.title')).toHaveText('Checkout: Your Information', { timeout: 3000 });
   });
 
   test('TC-UI-TRACE-03: Network Waterfall & Slow Request Identification', async ({ page }) => {
