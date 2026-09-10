@@ -1,0 +1,47 @@
+{
+  "name": "software-testing-playwright",
+  "version": "1.0.0",
+  "description": "Automation Testing Framework with Playwright (Group 67 - Cao Thang Technical College)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api --workers=1",
+    "test:e2e": "playwright test --project=chromium",
+    "test:e2e:all": "playwright test --project=chromium --project=firefox --project=webkit",
+    "test:smoke": "playwright test --project=smoke",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --project=chromium --headed",
+    "test:debug": "playwright test --debug",
+    "test:ci": "playwright test --reporter=list,html,json,junit",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --fix --cache",
+    "check": "tsc --noEmit && eslint . --fix --cache",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen https://www.saucedemo.com"
+  },
+  "keywords": [
+    "playwright",
+    "automation-testing",
+    "api-testing",
+    "e2e-testing",
+    "sdet"
+  ],
+  "author": "Group 67 (Cao Thang)",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.2.0",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.8.1",
+    "eslint-plugin-playwright": "^2.11.0",
+    "globals": "^17.11.0",
+    "jiti": "^2.7.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}
